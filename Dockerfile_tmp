@@ -1,0 +1,18 @@
+FROM intel/oneapi-hpckit:latest
+
+# install general packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libgmp-dev \
+    libmpfr-dev && \
+    # clean to reduce image size
+    apt-get clean -y && \
+    apt-get autoremove -y && \
+    apt-get autoclean -y && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workdir
+COPY ./dSFMT/ /dSFMT/
+COPY ./exflib-x86_64-linux/ /exflib-x86_64-linux/
+
+CMD [ "bash" ]
